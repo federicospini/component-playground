@@ -1,0 +1,26 @@
+<form method="post" action="build" id="component-form">
+  <fieldset>
+    <div class="label">dependencies</div>    
+  </fieldset>
+  <fieldset>
+    <button id="button-add" class="button long-button">add component</button>
+  </fieldset>
+  <fieldset>
+    <div>
+      <input type=text class="dependency first" name="dependencies" placeholder="author/repo"/>
+    </div>
+    <script type="template/html" id="form-anchor"></script>
+  </fieldset>
+  
+  <fieldset>
+    <div class="label">custom HTML</div>    
+  </fieldset>
+  <fieldset>
+    <div>
+      <textarea cols=80 rows=15 name="html" form="component-form" placeholder="put your custom HTML code here. Be sure to link `build/build.css` and `build/build.js`."></textarea>
+    </div>
+  </fieldset>
+  <fieldset>
+    <input type="submit" value="build" class="button long-button" />
+  </fieldset>
+</form>

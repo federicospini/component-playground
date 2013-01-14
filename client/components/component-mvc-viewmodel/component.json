@@ -1,0 +1,25 @@
+{
+  "name": "viewmodel",
+  "repo": "component-mvc/viewmodel",
+  "version": "0.0.1",
+  "description": "ViewModel component",
+  "keywords": [
+    "HTML",
+    "DOM",
+    "MVC",
+    "view",
+    "viewmodel"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "component-mvc/model": "*",
+    "component-mvc/event-manager": "*",
+    "component-mvc/delegate-manager": "*"
+  },
+  "development": {
+    "component/assert": "*"
+  },
+  "license": "MIT"
+}

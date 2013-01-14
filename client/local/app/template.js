@@ -1,0 +1,1 @@
+module.exports = '<div class="content">\n  <div class="title">Component playground</div>\n  <section>\n    <script type="template/html" id="app-anchor"></script>\n  </section>\n</div>';

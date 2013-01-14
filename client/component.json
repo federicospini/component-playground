@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+  },
+  "paths": [ "local" ],
+  "local": [ "app" ]
+}

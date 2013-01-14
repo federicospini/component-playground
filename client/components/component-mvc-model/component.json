@@ -1,0 +1,21 @@
+{
+  "name": "model",
+  "repo": "component-mvc/model",
+  "version": "0.0.1",
+  "description": "client-side MVC Model component",
+  "keywords": [
+    "client-side",
+    "MVC",
+    "model"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "component-mvc/attribute": "*"
+  },
+  "development": {
+    "component/assert": "*"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "attribute",
+  "repo": "component-mvc/attribute",
+  "description": "Attribute setter/getter component",
+  "version": "0.0.1",
+  "keywords": [
+    "model",
+    "attribute",
+    "change",
+    "event"
+  ],
+  "dependencies": {
+    "component/emitter": "*"
+  },
+  "development": {
+    "component/assert": "*"
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "license": "MIT"
+}

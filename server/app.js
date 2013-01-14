@@ -1,17 +1,9 @@
+
 /*!
  * component-playground
  * playground for published Component(s)
  */
 
-/**
- * component.json
- */
-
-var component_json = {
-  "name": "playground-",
-  "description": "Component playground ",
-  "version": "0.0.0"
-};
 
 /**
  * app dependencies
@@ -24,10 +16,21 @@ var fs = require('fs');
 var extend = require('extend');
 var rimraf = require('rimraf');
 var exec = require('child_process').exec;
+var join = require('path').join;
 
+/**
+ * globals
+ */
+ 
+var port = 7000;
+var playground_dir = 'public/playgrounds';
+var playground_expiration = 1 * 3600 * 1000;
+var component_json_path = 'assets/component.json';
+var component_json;
+var index_html_path = 'assets/index.html';
+var index_html;
 var playgrounds = {};
 var app = express();
-
 
 /**
  * create_filesystem
@@ -41,7 +44,7 @@ var app = express();
 
 var create_filesystem = function(options, callback) {
   var id = options.id;
-  var path = 'public/playgrounds/' + id;
+  var path = join(playground_dir, id);
   fs.mkdir(path, function(err) {
     if (err) throw err;
     callback(null, options);
@@ -62,7 +65,7 @@ var create_filesystem = function(options, callback) {
 var create_component_json = function(options, callback) {
   var id = options.id;
   var data = options.data;
-  var path = 'public/playgrounds/' + id + '/component.json';
+  var path = join(playground_dir, id, '/component.json');
   var component = {};
   var string;
   
@@ -96,7 +99,7 @@ var create_component_json = function(options, callback) {
 var create_makefile = function(options, callback) {
   var id = options.id;
   var srcpath = '../../../assets/Makefile';
-  var dstpath = 'public/playgrounds/' + id + '/Makefile';
+  var dstpath = join(playground_dir, id, 'Makefile');
   fs.symlink(srcpath, dstpath, 'file', function() {
     callback(null, options);    
   });
@@ -116,8 +119,8 @@ var create_makefile = function(options, callback) {
 var create_html = function(options, callback) {
   var id = options.id;
   var data = options.data;
-  var path = 'public/playgrounds/' + id + '/index.html';
-  var html = data.html;
+  var path = join(playground_dir, id, 'index.html');
+  var html = data.html !== "" ? data.html : index_html;
   
   fs.writeFile(path, html, function(err) {
     if (err) throw err;
@@ -137,13 +140,12 @@ var create_html = function(options, callback) {
 
 var create_eraser = function(options, callback) {
   var id = options.id;
-  var path = 'public/playgrounds/' + id;
+  var path = join(playground_dir, id);
   playgrounds[id] = setTimeout(function() {
     rimraf(id, function(err) {
       if (err) throw err;
-      
     });
-  }, 3600000);
+  }, playground_expiration);
   callback(null, options);
 };
 
@@ -159,7 +161,8 @@ var create_eraser = function(options, callback) {
 
 var build = function(options, callback) {
   var id = options.id;
-  var cmd = 'cd public/playgrounds/' + id + '; make'; 
+  var path = join(playground_dir, id);
+  var cmd = 'cd ' + path + '; make'; 
   
   console.log('BUILDING...');
   
@@ -169,12 +172,16 @@ var build = function(options, callback) {
   });
 };
 
+
+/**
+ * configuration
+ */
+ 
 app
   .use(express.logger('dev'))
   .use(express.favicon())
   .use(express.static(__dirname + '/public'))
-  .use(express.bodyParser())
-  .listen(7000);
+  .use(express.bodyParser());
 
 app.post('/build', function(req, res) {
   var id = shortid.generate();
@@ -201,3 +208,49 @@ app.post('/build', function(req, res) {
     res.redirect(redirect_url);
   });
 });
+
+/**
+ * initialization
+ */
+ 
+async.waterfall([
+  function(callback) {
+    // empty `playgrounds` folder
+    rimraf(playground_dir, function(err) {
+      if (err) throw err;
+      callback(null);
+    });
+  },
+  function(callback) {
+    // create `playgrounds` folder
+    fs.mkdir(playground_dir, function(err) {
+      if (err) throw err;
+      callback(null);
+    });
+  },
+  function(callback) {
+    // read `component.json` template
+    fs.readFile(component_json_path, function(err, data) {
+      if (err) throw err;
+      component_json = data;
+      callback(null);
+    });   
+   },
+  function(callback) {
+    // read `index.html` template
+    fs.readFile(index_html_path, function(err, data) {
+      if (err) throw err;
+      index_html = data;
+      callback(null);
+    });
+  }
+], function (err, result) {
+  if (err) {
+   console.log(err);
+   return;
+  }
+  app.listen(port, function() {
+   console.log('server listening on port ' + port);
+  });
+});
+

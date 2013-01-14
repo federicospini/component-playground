@@ -1,0 +1,20 @@
+{
+  "name": "event-manager",
+  "repo": "component-mvc/event-manager",
+  "version": "0.0.1",
+  "description": "Event manager",
+  "keywords": [
+    "event",
+    "events",
+    "bind"
+  ],
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {},
+  "development": {
+    "component/emitter": "*",
+    "component/assert": "*"
+  },
+  "license": "MIT"
+}

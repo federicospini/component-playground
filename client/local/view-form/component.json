@@ -1,0 +1,14 @@
+{
+  "name": "view-form",
+  "description": "ViewForm local component",
+  "dependencies": {
+    "component/domify": "*",
+    "component-mvc/viewmodel": "*"
+  },
+  "scripts": [
+    "index.js",
+    "template.js"
+  ],
+  "styles": [ "style.css" ],
+  "local": [ "view-formitem" ]
+}
