@@ -13,7 +13,10 @@
   "dependencies": {
     "express":  "*",
     "shortid": "*",
-    "async": "*"
+    "async": "*",
+    "extend": "*",
+    "rimraf": "*",
+    "fs.extra": "*"
   },
   "devDependencies": {
   }, 
